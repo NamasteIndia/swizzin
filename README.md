@@ -1,6 +1,8 @@
 # To make RCLONE working
-# sudo apt install fuse3
-# Updated INI
+``` bash
+sudo apt install fuse3
+```
+## Updated INI
 ``` INI
 [Unit]
 Description=Rclone Mount for Google Drive
