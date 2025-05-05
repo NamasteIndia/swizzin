@@ -1,3 +1,32 @@
+# To make RCLONE working
+# sudo apt install fuse3
+# Updated INI
+``` INI
+[Unit]
+Description=Rclone Mount for Google Drive
+After=network.target
+
+[Service]
+Type=simple
+User=%i
+Group=%i
+ExecStartPre=-/bin/mkdir -p /home/%i/cloud/
+ExecStart=/usr/bin/rclone mount gdrive: /home/%i/cloud/ \
+    --config=/home/%i/.config/rclone/rclone.conf \
+    --vfs-read-chunk-size-limit 64M \
+    --vfs-cache-mode full \
+    --tpslimit 10 \
+    --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.6" \
+    --log-file=/home/%i/rclone.log --log-level INFO
+ExecStop=/usr/bin/fusermount3 -uz /home/%i/cloud
+Restart=on-failure
+RestartSec=30
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target
+```
 ![swizzin](http://i.imgur.com/JZlDKP1.png)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/liaralabs/swizzin/badge)](https://www.codefactor.io/repository/github/liaralabs/swizzin) [![Discord](https://img.shields.io/discord/577667871727943696?logo=discord&logoColor=white)](https://discord.gg/sKjs9UM)  ![GitHub](https://img.shields.io/github/license/liaralabs/swizzin) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/liaralabs/swizzin) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/liaralabs/swizzin)
